@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName
 
 data class Message(
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String = "",
 
     @SerializedName("id")
-    val id: Int,
+    val id: Int = 1,
 
     @SerializedName("message")
     val message: String,
 
     @SerializedName("receiver_id")
-    val receiverId: Int,
+    val receiverId: Int = 1,
 
     @SerializedName("sender_id")
-    val senderId: Int,
+    val senderId: Int = 1,
 
     @SerializedName("updated_at")
-    val updatedAt: String
+    val updatedAt: String = ""
 )
 
 //{

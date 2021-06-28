@@ -274,3 +274,11 @@ fun TextInputLayout.customValidation(validation: CustomValidation): Boolean {
 }
 
 
+inline fun <T> tryOrNull(f: () -> T) =
+    try {
+        f()
+    } catch (_: Exception) {
+        null
+    }
+
+
