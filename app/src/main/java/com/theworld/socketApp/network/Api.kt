@@ -3,10 +3,7 @@ package com.theworld.socketApp.network
 import com.theworld.socketApp.data.message.Message
 import com.theworld.socketApp.data.user.User
 import okhttp3.ResponseBody
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface Api {
 
@@ -74,7 +71,10 @@ interface Api {
     /*------------------------------------ Fetch My Messages ------------------------------------*/
 
     @GET("chat/fetch")
-    suspend fun fetchChat(): List<Message>
+    suspend fun fetchChat(
+        @Query("sender_id") senderId: Int,
+        @Query("receiver_id") receiverId: Int,
+    ): List<Message>
 
 
     /*------------------------------------ Send Message ------------------------------------*/
@@ -82,8 +82,8 @@ interface Api {
     @FormUrlEncoded
     @POST("chat/store")
     suspend fun sendMessage(
-        @Field("sender_id") userId: Int,
-        @Field("receiver_id") currentPassword: String,
+        @Field("sender_id") senderId: Int,
+        @Field("receiver_id") receiverId: Int,
         @Field("message") password: String,
     ): Message
 

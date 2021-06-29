@@ -34,12 +34,8 @@ fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
 
 /*------------------------------------- Base + Image Url ------------------------------*/
 
-//const val baseUrl = "http://192.168.0.133/"
-//const val imageUrl = baseUrl + "matchapi/"
-
-const val baseUrl = "http://appbiz.club/"
-const val imageUrl = baseUrl + "matchapi/"
-//const val imageUrl = baseUrl + "HRS/"
+const val baseUrl = "http://192.168.0.140:8000/"
+const val imageUrl = baseUrl + "storage/"
 
 
 /*------------------------------------- Display Snackbar ------------------------------*/

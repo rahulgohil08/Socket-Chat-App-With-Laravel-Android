@@ -78,7 +78,7 @@ object AppModule {
 
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("${BASE_URL}matchapi/api/")
+            .baseUrl("${BASE_URL}api/")
             .client(okHttpClient)
             .build()
     }

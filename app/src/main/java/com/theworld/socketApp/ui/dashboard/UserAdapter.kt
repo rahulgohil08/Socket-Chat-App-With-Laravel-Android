@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.theworld.socketApp.data.message.Message
+import com.theworld.socketApp.data.user.User
 import com.theworld.socketApp.databinding.LayoutUsersBinding
 
-class UserAdapter() :
-    ListAdapter<Message, UserAdapter.CustomerViewHolder>(DiffCallback()) {
+class UserAdapter(private val userInterface: UserInterface) :
+    ListAdapter<User, UserAdapter.CustomerViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerViewHolder {
@@ -34,7 +35,7 @@ class UserAdapter() :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
 
-//                    notificationInterface.onClick(getItem(position))
+                    userInterface.onClick(getItem(position))
 
                 }
             }
@@ -42,23 +43,27 @@ class UserAdapter() :
         }
 
 
-        fun bind(data: Message) {
+        fun bind(data: User) {
 
             binding.apply {
-                name.text = data.message
+                name.text = "${data.name} (${data.mobileNo})"
             }
         }
 
 
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Message>() {
-        override fun areItemsTheSame(old: Message, aNew: Message) =
+    class DiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(old: User, aNew: User) =
             old.id == aNew.id
 
-        override fun areContentsTheSame(old: Message, aNew: Message) =
+        override fun areContentsTheSame(old: User, aNew: User) =
             old == aNew
     }
 
+
+    interface UserInterface {
+        fun onClick(user: User)
+    }
 
 }

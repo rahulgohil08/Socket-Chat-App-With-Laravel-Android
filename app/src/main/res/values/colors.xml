@@ -20,6 +20,7 @@
     <color name="colorPrimaryVariant">#FF3700B3</color>
     <color name="colorPrimaryDark">#3F51B5</color>
     <color name="colorLightBlue">#6198FF</color>
+    <color name="colorRoyalBlue">#4169E1</color>
     <color name="colorDarkBlue">#202f65</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>

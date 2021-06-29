@@ -12,7 +12,11 @@
         android:id="@+id/dashboardFragment"
         android:name="com.theworld.socketApp.ui.dashboard.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 
 
     <fragment
@@ -20,6 +24,16 @@
         android:name="com.theworld.socketApp.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.theworld.socketApp.ui.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="userId"
+            android:defaultValue="2"
+            app:argType="integer" />
+    </fragment>
 
 
 </navigation>
