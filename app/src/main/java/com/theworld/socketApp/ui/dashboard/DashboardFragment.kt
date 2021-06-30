@@ -78,9 +78,13 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), UserAdapter.Use
             when (resource) {
                 is Resource.Success -> {
 
-                    val data = resource.value
+                    var data = resource.value
 
                     binding.notFound.isVisible = data.isEmpty()
+
+                    if (data.isNotEmpty()) {
+                        data = data.filter { it.id == getUserId() }
+                    }
 
                     userAdapter.submitList(data)
 
@@ -98,7 +102,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), UserAdapter.Use
 
     override fun onClick(user: User) {
 
-        val action = DashboardFragmentDirections.actionDashboardFragmentToChatFragment()
+        val action =
+            DashboardFragmentDirections.actionDashboardFragmentToChatFragment(userId = user.id)
         findNavController().navigate(action)
 
     }

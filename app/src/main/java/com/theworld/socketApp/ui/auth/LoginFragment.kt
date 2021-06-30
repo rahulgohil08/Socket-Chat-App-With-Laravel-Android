@@ -8,9 +8,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.hrsports.cricketstreaming.utils.*
 import com.theworld.socketApp.R
+import com.theworld.socketApp.data.user.User
 import com.theworld.socketApp.databinding.FragmentLoginBinding
 import com.theworld.socketApp.utils.CustomValidation
 import com.theworld.socketApp.utils.Resource
+import com.theworld.socketApp.utils.redirectToDestination
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -42,6 +44,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        _binding = FragmentLoginBinding.bind(view)
 
         init()
         navigateUser()
@@ -62,7 +65,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun navigateUser() {
         if (requireContext().isLogin()) {
-            findNavController().navigateUp()
+            findNavController().redirectToDestination(R.id.dashboardFragment)
         }
 
     }
@@ -84,7 +87,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             btnLogin.setOnClickListener {
                 if (!binding.edtEmail.customValidation(
                         CustomValidation(
-                            isEmail = true
+                            isLengthRequired = true,
+                            length = 10,
                         )
                     )
                     or
@@ -126,7 +130,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             when (resource) {
                 is Resource.Success -> {
 
-//                        storeData(resource.value)
+                    storeData(resource.value as User)
 
                 }
                 is Resource.Failure -> {
@@ -172,17 +176,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     /*----------------------------------------- Store Data -------------------------------*/
 
-//    private fun storeData(user: User?) {
-//
-//        user?.let {
-//            sharedPrefManager.setInt("user_id", (user.id).toInt())
-//            sharedPrefManager.setString("name", user.name)
-//            sharedPrefManager.setString("profile_image", user.profileImage)
-//            sharedPrefManager.setBoolean("is_login", true)
-//            navigateUser()
-//        }
-//
-//    }
+    private fun storeData(user: User) {
+
+        sharedPrefManager.setInt("user_id", (user.id))
+        sharedPrefManager.setString("name", user.name)
+        sharedPrefManager.setBoolean("is_login", true)
+        navigateUser()
+
+    }
 
 
     /*-------------------------------- Google Login Flow -------------------------------------*/

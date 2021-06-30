@@ -1,19 +1,26 @@
 package com.theworld.socketApp.ui.chat
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hrsports.cricketstreaming.utils.Constants
+import com.hrsports.cricketstreaming.utils.SharedPrefManager
+import com.hrsports.cricketstreaming.utils.getUserId
 import com.theworld.socketApp.data.message.Message
 import com.theworld.socketApp.databinding.ChatItemLeftBinding
 import com.theworld.socketApp.databinding.ChatItemRightBinding
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class ChatAdapter() :
+class ChatAdapter(private val context: Context) :
     ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
+        private const val TAG = "ChatAdapter"
         private const val left_side = 1
         private const val right_side = 0
     }
@@ -21,7 +28,7 @@ class ChatAdapter() :
 
     override fun getItemViewType(position: Int): Int {
 
-        return if (getItem(position).senderId == Constants.senderId) {
+        return if (getItem(position).senderId == context.getUserId()) {
             right_side
         } else {
             left_side
@@ -30,6 +37,8 @@ class ChatAdapter() :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        Log.d(TAG, "onCreateViewHolder: ${context.getUserId()}")
 
         return if (viewType == left_side) {
             val binding =

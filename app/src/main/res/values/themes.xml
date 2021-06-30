@@ -3,7 +3,7 @@
     <style name="Theme.AndroidTemplateWithNavComponents" parent="Theme.MaterialComponents.Light.NoActionBar">
 
 
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorRoyalBlue</item>
         <item name="colorPrimaryDark">@color/colorLightBlue</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/colorWhite</item>

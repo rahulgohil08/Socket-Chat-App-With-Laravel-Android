@@ -37,10 +37,11 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
 
-    private val chatAdapter = ChatAdapter()
+    private val args: ChatFragmentArgs by navArgs()
+
     private val viewModel: ChatViewModel by viewModels()
 
-    private val args: ChatFragmentArgs by navArgs()
+    private lateinit var chatAdapter: ChatAdapter
 
 
     @Inject
@@ -75,6 +76,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private fun init() {
 
+        chatAdapter = ChatAdapter(requireContext())
 
         try {
             socket = IO.socket("http://192.168.0.140:3000")
@@ -203,7 +205,13 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
                     chatAdapter.submitList(data)
 
-                    binding.recyclerView.smoothScrollToPosition(chatAdapter.itemCount - 1)
+                    binding.recyclerView.smoothScrollToPosition(
+                        if (chatAdapter.itemCount <= 0) {
+                            0
+                        } else {
+                            chatAdapter.itemCount - 1
+                        }
+                    )
 
 
                 }
