@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         return if (item.itemId == R.id.logout) {
             sharedPrefManager.clear()
             manageHeaderView()
-            navController.redirectToDestination(R.id.dashboardFragment)
+            navController.redirectToDestination(R.id.login_graph)
             true
         } else {
             item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)

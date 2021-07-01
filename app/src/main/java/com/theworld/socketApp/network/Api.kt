@@ -10,11 +10,11 @@ interface Api {
     /*------------------------------------ Login ------------------------------------*/
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("user/login")
     suspend fun login(
         @Field("mobile_no") mobileNo: String,
         @Field("password") password: String
-    ): ResponseBody
+    ): User
 
 
     /*------------------------------------ Login ------------------------------------*/

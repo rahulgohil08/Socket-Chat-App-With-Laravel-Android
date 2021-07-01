@@ -13,6 +13,7 @@ abstract class SafeApiCall {
 
         return withContext(Dispatchers.IO) {
             try {
+                Resource.Loading
                 Resource.Success(apiCall.invoke())
             } catch (exception: Exception) {
 

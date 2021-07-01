@@ -130,7 +130,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             when (resource) {
                 is Resource.Success -> {
 
-                    storeData(resource.value as User)
+                    storeData(resource.value)
 
                 }
                 is Resource.Failure -> {

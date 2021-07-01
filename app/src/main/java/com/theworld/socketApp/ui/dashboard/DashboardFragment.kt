@@ -1,6 +1,7 @@
 package com.theworld.socketApp.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -83,7 +84,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), UserAdapter.Use
                     binding.notFound.isVisible = data.isEmpty()
 
                     if (data.isNotEmpty()) {
-                        data = data.filter { it.id == getUserId() }
+                        data = data.filter { it.id != getUserId() }
                     }
 
                     userAdapter.submitList(data)
@@ -101,6 +102,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard), UserAdapter.Use
     /*----------------------- --- Handle Interfaces -------------------------------*/
 
     override fun onClick(user: User) {
+
+        Log.d(TAG, "Clicked User is ::: ${user.id}")
 
         val action =
             DashboardFragmentDirections.actionDashboardFragmentToChatFragment(userId = user.id)

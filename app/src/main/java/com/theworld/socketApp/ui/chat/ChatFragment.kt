@@ -13,7 +13,6 @@ import com.hrsports.cricketstreaming.utils.*
 import com.theworld.socketApp.R
 import com.theworld.socketApp.data.message.Message
 import com.theworld.socketApp.databinding.FragmentChatBinding
-import com.theworld.socketApp.databinding.FragmentDashboardBinding
 import com.theworld.socketApp.utils.CustomValidation
 import com.theworld.socketApp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +36,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
 
-    private val args: ChatFragmentArgs by navArgs()
+    private val fragmentArgs: ChatFragmentArgs by navArgs()
 
     private val viewModel: ChatViewModel by viewModels()
 
@@ -68,7 +67,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         init()
         clickListeners()
 
-        fetchChat(Constants.senderId, args.userId)
+        fetchChat()
     }
 
     /*----------------------------------------- Init -------------------------------*/
@@ -111,7 +110,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     var onConnect = Emitter.Listener {
         lifecycleScope.launchWhenCreated {
-            requireContext().toast("Connect Event Called")
+//            requireContext().toast("Connect Event Called")
         }
     }
 
@@ -135,8 +134,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 val msg = binding.edtMsg.normalText()
 
                 val requestData = Message(
-                    senderId = Constants.senderId,
-                    receiverId = args.userId,
+                    senderId = getUserId(),
+                    receiverId = fragmentArgs.userId,
                     message = msg,
                 )
 
@@ -162,14 +161,15 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
             val data = gson.fromJson(args[0].toString(), Message::class.java)
 
-            val chatList = chatAdapter.currentList.toMutableList()
-            chatList.add(data)
+            if ((data.senderId == getUserId() && data.receiverId == fragmentArgs.userId) || (data.receiverId == getUserId() && data.senderId == fragmentArgs.userId)) {
 
-            chatAdapter.submitList(chatList)
+                val chatList = chatAdapter.currentList.toMutableList()
+                chatList.add(data)
+                chatAdapter.submitList(chatList)
+                Log.d(TAG, "onNewMessage: $data")
+                binding.recyclerView.smoothScrollToPosition(chatAdapter.itemCount - 1)
 
-            Log.d(TAG, "onNewMessage: $data")
-
-            binding.recyclerView.smoothScrollToPosition(chatAdapter.itemCount - 1)
+            }
 
 
         } catch (e: JSONException) {
@@ -188,9 +188,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     /*----------------------------- Fetch Data -------------------------------*/
 
-    private fun fetchChat(senderId: Int, receiverId: Int) {
+    private fun fetchChat() {
 
-        viewModel.fetchChat(senderId, receiverId)
+        viewModel.fetchChat(getUserId(), fragmentArgs.userId)
         viewModel.messages.observe(viewLifecycleOwner) { resource ->
 
             isLoading(resource is Resource.Loading)
